@@ -1,0 +1,353 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>樱花之约 | Sakura Nav</title>
+    <!-- 引入Google Fonts艺术字体 -->
+    <link href="https://fonts.googleapis.com/css2?family=Ma+Shan+Zheng&family=Sacramento&display=swap" rel="stylesheet">
+    <!-- 引入Font Awesome图标库 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <!-- 樱花飘落容器 -->
+    <div id="sakura-container"></div>
+
+    <!-- 左侧设置侧边栏 -->
+    <div class="settings-trigger" onclick="toggleSettings()"><svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor"><path d="M19.14,12.94c0.04-0.3,0.06-0.61,0.06-0.94c0-0.32-0.02-0.64-0.07-0.94l2.03-1.58c0.18-0.14,0.23-0.41,0.12-0.61 l-1.92-3.32c-0.12-0.22-0.37-0.29-0.59-0.22l-2.39,0.96c-0.5-0.38-1.03-0.7-1.62-0.94L14.4,2.81c-0.04-0.24-0.24-0.41-0.48-0.41 h-3.84c-0.24,0-0.43,0.17-0.47,0.41L9.25,5.35C8.66,5.59,8.12,5.92,7.63,6.29L5.24,5.33c-0.22-0.08-0.47,0-0.59,0.22L2.74,8.87 C2.62,9.08,2.66,9.34,2.86,9.48l2.03,1.58C4.84,11.36,4.8,11.69,4.8,12s0.02,0.64,0.07,0.94l-2.03,1.58 c-0.18,0.14-0.23,0.41-0.12,0.61l1.92,3.32c0.12,0.22,0.37,0.29,0.59,0.22l2.39-0.96c0.5,0.38,1.03,0.7,1.62,0.94l0.36,2.54 c0.05,0.24,0.24,0.41,0.48,0.41h3.84c0.24,0,0.44-0.17,0.47-0.41l0.36-2.54c0.59-0.24,1.13-0.56,1.62-0.94l2.39,0.96 c0.22,0.08,0.47,0,0.59-0.22l1.92-3.32c0.12-0.22,0.07-0.47-0.12-0.61L19.14,12.94z M12,15.6c-1.98,0-3.6-1.62-3.6-3.6 s1.62-3.6,3.6-3.6s3.6,1.62,3.6,3.6S13.98,15.6,12,15.6z"/></svg></div>
+    
+    <!-- 返回顶部按钮 -->
+    <div class="back-to-top" id="backToTop">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="currentColor">
+            <path d="M7.41 15.41L12 10.83l4.59 4.58L18 14l-6-6-6 6z"/>
+        </svg>
+    </div>
+    <aside class="settings-panel" id="settingsPanel">
+        <div class="panel-header">
+            <h3>设置 & 音乐</h3>
+            <span class="close-btn" onclick="toggleSettings()">×</span>
+        </div>
+        
+        <div class="setting-item">
+            <label>主题切换</label>
+            <button id="themeToggle" class="theme-btn">🌙 切换深色</button>
+        </div>
+        
+        <div class="setting-item">
+            <label>背景模糊</label>
+            <div class="blur-toggle">
+                <button id="blurToggleBtn" class="toggle-btn active">🌫️ 开启背景模糊</button>
+            </div>
+            <div class="blur-controls">
+                <div class="blur-control-item">
+                    <label class="control-label">卡片模糊</label>
+                    <div class="blur-control">
+                        <span class="blur-icon">🃏</span>
+                        <input type="range" id="cardBlurSlider" min="0" max="20" step="1" value="2">
+                        <span id="cardBlurAmount">2px</span>
+                    </div>
+                </div>
+                <div class="blur-control-item">
+                    <label class="control-label">背景图片模糊</label>
+                    <div class="blur-control">
+                        <span class="blur-icon">🖼️</span>
+                        <input type="range" id="bgImgBlurSlider" min="0" max="20" step="1" value="10">
+                        <span id="bgImgBlurAmount">10px</span>
+                    </div>
+                </div>
+            </div>
+            <button id="blurResetBtn" class="reset-btn">重置所有模糊</button>
+            <p class="blur-status">当前状态: <span id="blurStatusText">已开启</span></p>
+        </div>
+
+        <div class="setting-item">
+            <label>樱花飘落效果</label>
+            <div class="sakura-controls">
+                <button id="sakuraToggleBtn" class="toggle-btn">🌸 开启樱花飘落</button>
+                
+                <div class="sakura-speed-control">
+                    <label class="control-label">飘落速度</label>
+                    <div class="speed-control">
+                        <span class="speed-icon">🐌</span>
+                        <input type="range" id="sakuraSpeedSlider" min="0" max="100" step="5" value="60">
+                        <span id="sakuraSpeedValue">60%</span>
+                    </div>
+                </div>
+                
+                <div class="sakura-count-control">
+                    <label class="control-label">飘落数量</label>
+                    <div class="count-control">
+                        <span class="count-icon">🌸</span>
+                        <input type="range" id="sakuraCountSlider" min="10" max="200" step="10" value="150">
+                        <span id="sakuraCountValue">150 朵</span>
+                    </div>
+                </div>
+                
+                <p class="sakura-status">当前状态: <span id="sakuraStatusText">已关闭</span></p>
+            </div>
+        </div>
+
+        <div class="setting-item">
+            <label>背景音乐</label>
+            <div class="music-player">
+                    <audio id="bgAudio" loop>
+                        <!-- 这里引用本地音乐 -->
+                        <source src="assets/music/bgm.mp3" type="audio/mpeg">
+                        您的浏览器不支持音频播放。
+                     </audio>
+                        <!-- 进度条 -->
+                        <div class="progress-container">
+                            <div class="time-display">
+                                <span id="currentTime">0:00</span> / <span id="totalTime">0:00</span>
+                            </div>
+                            <div class="progress-bar">
+                                <div id="progressFill" class="progress-fill"></div>
+                                <div id="progressHandle" class="progress-handle"></div>
+                            </div>
+                        </div>
+                        
+                        <!-- 控制按钮 -->
+                        <div class="music-controls">
+                            <button id="playPauseBtn" class="play-pause-btn">
+                                <span id="playIcon">▶</span>
+                                <span id="pauseIcon" class="hidden">⏸</span>
+                                播放
+                            </button>
+                        </div>
+                        
+                        <!-- 音量控制 -->
+                        <div class="volume-control">
+                            <span class="volume-icon">🔊</span>
+                            <input type="range" id="volumeSlider" min="0" max="1" step="0.05" value="0.3">
+                            <span id="volumePercent">30%</span>
+                        </div>
+                        
+                        <p class="music-status">当前状态: <span id="musicStatus">停止</span></p>
+                    </div>
+                </div>
+    </aside>
+
+    <!-- 主要内容区域 -->
+    <main class="content-wrapper">
+        <!-- 艺术字标题 H1 -->
+        <header>
+            <h1 class="artistic-title">SAKURA MEMORIES</h1>
+            <p class="subtitle">樱花落下的速度是每秒五厘米</p>
+        </header>
+
+        <!-- 一级菜单：简介 (Hero Section) -->
+        <section class="intro-card glass-effect">
+            <div class="avatar-container">
+                <!-- 这里引用本地头像 -->
+                <img src="assets/images/avatar.jpg" alt="头像" onerror="this.src='https://via.placeholder.com/150?text=Avatar'">
+            </div>
+            <div class="intro-text" id="introText">
+                <h2>关于我 / INTRODUCTION</h2>
+                <p>欢迎来到我的个人导航。这里记录着动漫、生活与技术的点滴。愿你在这里找到属于你的那一朵樱花。</p>
+            </div>
+        </section>
+        
+        <!-- 关于我弹窗 -->
+        <div id="profileModal" class="modal">
+            <div class="modal-content glass-effect">
+                <div class="modal-header">
+                    <h3>个人主页链接</h3>
+                    <span class="modal-close" onclick="closeProfileModal()">×</span>
+                </div>
+                <div class="modal-body">
+                    <div class="social-links">
+                        <a href="https://space.bilibili.com/1023010846" target="_blank" class="social-link bilibili">
+                            <i class="fab fa-bilibili"></i>
+                            <span>哔哩哔哩个人主页</span>
+                        </a>
+                        <a href="https://github.com/zhaogb612" target="_blank" class="social-link github">
+                            <i class="fab fa-github"></i>
+                            <span>GitHub个人主页</span>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 搜索框 -->
+        <div class="search-container">
+            <form action="https://cn.bing.com/search" method="get" target="_blank" class="search-form">
+                <input type="text" name="q" placeholder="没找到你想要的网站。搜索一下吧。" class="search-input" required>
+                <button type="submit" class="search-button">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
+        </div>
+
+        <!-- 二级菜单：导航链接 -->
+        <section class="nav-grid">
+            <!-- 导航项 1 -->
+            <!-- 导航项 2 -->
+            <a href="https://www.bilibili.com" target="_blank" class="nav-item glass-effect">
+                <div class="icon-box"><i class="fas fa-tv cloud-icon"></i></div>
+                <h3>哔哩哔哩</h3>
+            </a>
+
+            <!-- 导航项 3 -->
+            <a href="https://www.pixiv.net" target="_blank" class="nav-item glass-effect">
+                <div class="icon-box"><i class="fas fa-paint-brush cloud-icon"></i></div>
+                <h3>Pixiv</h3>
+            </a>
+
+            <!-- 导航项 4 -->
+            <a href="https://music.163.com" target="_blank" class="nav-item glass-effect">
+                <div class="icon-box"><i class="fas fa-cloud cloud-icon"></i></div>
+                <h3>网易云</h3>
+            </a>
+            
+            <!-- 动漫观看网站 -->
+            <a href="https://www.acfun.cn" target="_blank" class="nav-item glass-effect">
+                <div class="icon-box"><i class="fas fa-tv cloud-icon"></i></div>
+                <h3>AcFun</h3>
+            </a>
+            <a href="https://www.mutedm.com/" target="_blank" class="nav-item glass-effect">
+                <div class="icon-box"><i class="fas fa-magic cloud-icon"></i></div>
+                <h3>MuteFun动漫</h3>
+            </a>
+            <a href="https://bangumi.tv/" target="_blank" class="nav-item glass-effect">
+                <div class="icon-box"><i class="fas fa-calendar-alt cloud-icon"></i></div>
+                <h3>Bangumi番组计划</h3>
+            </a>
+            
+            <!-- 动漫资源网站 -->
+            <a href="https://www.miaoaaa.com/" target="_blank" class="nav-item glass-effect">
+                <div class="icon-box"><i class="fas fa-magic cloud-icon"></i></div>
+                <h3>ACG喵导航</h3>
+            </a>
+            
+            
+            <!-- 轻小说网站 -->
+            <a href="https://www.wenku8.net/" target="_blank" class="nav-item glass-effect">
+                <div class="icon-box"><i class="fas fa-book-open cloud-icon"></i></div>
+                <h3>轻小说文库</h3>
+            </a>
+            <a href="https://book.sfacg.com/" target="_blank" class="nav-item glass-effect">
+                <div class="icon-box"><i class="fas fa-book cloud-icon"></i></div>
+                <h3>SF轻小说</h3>
+            </a>
+    
+            
+            <!-- 科技类网站 -->
+            <a href="https://www.htmacg.cn/" target="_blank" class="nav-item glass-effect">
+                <div class="icon-box"><i class="fas fa-laptop-code cloud-icon"></i></div>
+                <h3>墨韵先知</h3>
+            </a>
+            <a href="https://www.ghxi.com/" target="_blank" class="nav-item glass-effect">
+                <div class="icon-box"><i class="fas fa-seedling cloud-icon"></i></div>
+                <h3>果核剥壳</h3>
+            </a>
+            
+            <!-- 其他实用网站 -->
+            <a href="https://github.com" target="_blank" class="nav-item glass-effect">
+                <div class="icon-box"><i class="fab fa-github cloud-icon"></i></div>
+                <h3>GitHub</h3>
+            </a>
+            
+            <!-- 添加网站按钮 -->
+            <div id="addSiteBtn" class="nav-item glass-effect">
+                <div class="icon-box"><i class="fas fa-plus cloud-icon"></i></div>
+                <h3>添加网站</h3>
+            </div>
+            
+        </section>
+    </main>
+
+    <!-- 添加网站弹窗 -->
+    <div id="addSiteModal" class="modal">
+        <div class="modal-content glass-effect">
+            <div class="modal-header">
+                <h3>添加新网站</h3>
+                <span class="close-modal" onclick="closeAddSiteModal()">&times;</span>
+            </div>
+            <div class="modal-body">
+                <form id="addSiteForm">
+                    <div class="form-group">
+                        <label for="siteName">网站名称:</label>
+                        <input type="text" id="siteName" placeholder="请输入网站名称" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="siteUrl">网站URL:</label>
+                        <input type="url" id="siteUrl" placeholder="请输入完整网址 (https://...)" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="siteIcon">选择图标:</label>
+                        <div class="icon-selector">
+                            <button type="button" class="icon-option" data-icon="fas fa-globe"><i class="fas fa-globe"></i></button>
+                            <button type="button" class="icon-option" data-icon="fas fa-tv"><i class="fas fa-tv"></i></button>
+                            <button type="button" class="icon-option" data-icon="fas fa-music"><i class="fas fa-music"></i></button>
+                            <button type="button" class="icon-option" data-icon="fas fa-book"><i class="fas fa-book"></i></button>
+                            <button type="button" class="icon-option" data-icon="fas fa-paint-brush"><i class="fas fa-paint-brush"></i></button>
+                            <button type="button" class="icon-option" data-icon="fas fa-comments"><i class="fas fa-comments"></i></button>
+                            <button type="button" class="icon-option" data-icon="fas fa-gamepad"><i class="fas fa-gamepad"></i></button>
+                            <button type="button" class="icon-option" data-icon="fas fa-code"><i class="fas fa-code"></i></button>
+                        </div>
+                        <input type="hidden" id="selectedIcon" value="fas fa-globe">
+                    </div>
+                    <div class="form-group">
+                        <label for="siteCategory">分类:</label>
+                        <select id="siteCategory">
+                            <option value="default">默认</option>
+                            <option value="anime">动漫</option>
+                            <option value="music">音乐</option>
+                            <option value="reading">阅读</option>
+                            <option value="utility">工具</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-cancel" onclick="closeAddSiteModal()">取消</button>
+                <button class="btn btn-confirm" onclick="addNewSite()">添加</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- 使用说明弹窗 -->
+    <div id="usageGuideModal" class="modal">
+        <div class="modal-content glass-effect">
+            <div class="modal-header">
+                <h3>使用说明</h3>
+                <span class="modal-close" onclick="closeUsageGuide(false)">&times;</span>
+            </div>
+            <div class="modal-body">
+                <div class="usage-content">
+                    <h4>欢迎使用 SAKURA MEMORIES 导航网站</h4>
+                    <p>这是一个动漫主题的导航网站，为您提供便捷的网站访问体验。</p>
+                    
+                    <h4 style="margin-top: 20px;">主要功能：</h4>
+                    <ul>
+                        <li>💫 导航链接 - 点击即可访问各类网站</li>
+                        <li>🎵 音乐播放器 - 左侧栏可控制背景音乐</li>
+                        <li>📅 迷你日历 - 右上角显示当前日期</li>
+                        <li>⚙️ 设置面板 - 左侧可调整主题、背景等</li>
+                        <li>🌸 樱花飘落特效 - 可在设置中开关</li>
+                    </ul>
+                    
+                    <h4 style="margin-top: 20px;">使用提示：</h4>
+                    <ul>
+                        <li>点击左上角图标可打开设置面板</li>
+                        <li>点击右上角日历图标可展开/收起日历</li>
+                        <li>支持浅色/深色主题切换</li>
+                        <li>可自定义背景模糊程度</li>
+                        <li>右键长按4s删除网站，左键拖拽可排序 </li>
+                    </ul>
+                </div>
+                
+                <div class="modal-footer" style="margin-top: 30px; display: flex; gap: 15px; justify-content: flex-end;">
+                        <button onclick="closeUsageGuide(true)">10小时内不再提示</button>
+                    <button onclick="closeUsageGuide(false)">已知晓</button>
+                    </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>
